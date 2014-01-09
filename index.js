@@ -47,6 +47,15 @@ Purse.prototype.complete = function(options, cb) {
  *   reference_id
  */
 Purse.prototype.cancel = function(options, cb) {
+  if (!this._checkParameters(['wallet_id', 'reference_id'], options)) {
+    return cb("Missing parameters!", null);
+  }
+
+  this._request({
+    method: 'cancel',
+    data: options,
+    wallet_id: options.wallet_id
+  }, cb);
 };
 
 /**
