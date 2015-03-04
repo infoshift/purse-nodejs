@@ -15,7 +15,9 @@
   "main": "./index.js",
   "devDependencies": {
     "mocha": "*",
-    "supertest": "*"
+    "supertest": "*",
+    "chai": "*",
+    "nock": "*"
   },
   "engines": {
     "node": ">= 0.10"
