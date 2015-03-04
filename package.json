@@ -2,6 +2,9 @@
   "name": "purse-nodejs",
   "version": "0.0.1",
   "author": "Jesse Panganiban <jesse.panganiban@infoshiftinc.com>",
+  "contributors": [
+    "Jezeniel Zapanta <jezeniel@infoshiftinc.com>"
+  ],
   "description": "Purse nodejs client",
   "contributors": [],
   "repository": {},

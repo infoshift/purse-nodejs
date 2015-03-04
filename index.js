@@ -4,8 +4,13 @@ var _ = require('underscore');
 
 var Purse = function(options) {
   this.options = options;
+  this.INVALID_HTTP_CODES = Purse.INVALID_HTTP_CODES;
 };
 
+Purse.INVALID_HTTP_CODES = {
+  401: "Insufficient balance.",
+  404: "Wallet doesn't exists."
+};
 
 /**
  * options:
@@ -19,6 +24,23 @@ Purse.prototype.reserve = function(options, cb) {
 
   this._request({
     method: 'reserve',
+    data: options,
+    wallet_id: options.wallet_id
+  }, cb);
+};
+
+/**
+ * options:
+ *   wallet_id
+ *   amount
+ */
+Purse.prototype.charge = function(options, cb) {
+  if(!this._checkParameters(['wallet_id', 'amount'], options)) {
+    return cb("Missing parameters!", null);
+  }
+
+  this._request({
+    method: 'charge',
     data: options,
     wallet_id: options.wallet_id
   }, cb);
@@ -65,13 +87,20 @@ Purse.prototype.cancel = function(options, cb) {
  *   data
  */
 Purse.prototype._request = function(options, cb) {
+  var url = this.options.url + '/wallets/' + options.wallet_id + '/' + options.method;
+  var self = this;
   request
-    .post(this.options.url + '/wallets/' + options.wallet_id + '/' + options.method)
+    .post(url)
     .type('form')
     .send(options.data)
     .end(function(err, resp) {
-      if (err) return cb("System is down!", null);
-      if (resp.statusCode === 401) return cb("Insufficient balance", null);
+      if (err) {
+        return cb("System is down!", null);
+      }
+      console.log(resp.statusCode);
+      if (self.INVALID_HTTP_CODES[resp.statusCode]) {
+        return cb(self.INVALID_HTTP_CODES[resp.statusCode], null);
+      }
       return cb(null, {
         statusCode: resp.statusCode,
         body: resp.body
