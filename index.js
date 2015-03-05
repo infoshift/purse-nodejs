@@ -97,7 +97,6 @@ Purse.prototype._request = function(options, cb) {
       if (err) {
         return cb("System is down!", null);
       }
-      console.log(resp.statusCode);
       if (self.INVALID_HTTP_CODES[resp.statusCode]) {
         return cb(self.INVALID_HTTP_CODES[resp.statusCode], null);
       }
