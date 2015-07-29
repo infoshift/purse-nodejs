@@ -91,7 +91,7 @@ Purse.prototype._request = function(options, cb) {
   var self = this;
   request
     .post(url)
-    .type('form')
+    .type('json')
     .send(options.data)
     .end(function(err, resp) {
       if (err) {
