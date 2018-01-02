@@ -8,8 +8,9 @@ var Purse = function(options) {
 };
 
 Purse.INVALID_HTTP_CODES = {
-  401: "Insufficient balance.",
-  404: "Wallet doesn't exists."
+  400: "Insufficient balance/credit limit reached.",
+  404: "Wallet doesn't exists.",
+  500: "Failed to complete transaction."
 };
 
 /**
