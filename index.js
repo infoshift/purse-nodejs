@@ -98,13 +98,14 @@ Purse.prototype._request = function(options, cb) {
       if (err) {
         return cb("System is down!", null);
       }
-      if (self.INVALID_HTTP_CODES[resp.statusCode]) {
-        return cb(self.INVALID_HTTP_CODES[resp.statusCode], null);
-      }
-      return cb(null, {
+      var body = {
         statusCode: resp.statusCode,
         body: resp.body
-      });
+      }
+      if (self.INVALID_HTTP_CODES[resp.statusCode]) {
+        return cb(self.INVALID_HTTP_CODES[resp.statusCode], body);
+      }
+      return cb(null, body);
     });
 };
 
